@@ -1,12 +1,17 @@
 package com.example.guessgame
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.DisplayMetrics
 import android.util.Log
+import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -52,15 +57,25 @@ class HomeActivity : AppCompatActivity() {
     private val TAG = "HomeActivity" // Тег для логирования
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         Log.d(TAG, "onCreate: Запуск HomeActivity")
         fetchPacks() // Вызов функции для получения данных с сервера
+
+        val unSignUpButton: Button = findViewById(R.id.unSignUpButton)
+
+        unSignUpButton.setOnClickListener {
+            // Переход на новую активность HomeActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun fetchPacks() {
-        val url = "http://192.168.1.101:1323/api/packs" // URL для получения паков
+        val url = Constants.BASE_URL + "/api/packs" // URL для получения паков
         Log.d(TAG, "fetchPacks: Отправка запроса на $url")
 
         val request = Request.Builder().url(url).build()
@@ -102,7 +117,9 @@ class HomeActivity : AppCompatActivity() {
 
         val imageSizeInDp = 300 // Размер изображения в dp
         val scale = resources.displayMetrics.density
-        val imageSizeInPx = (imageSizeInDp * scale + 0.5f).toInt() // Преобразование dp в px
+        //val imageSizeInPx = (imageSizeInDp * scale + 0.5f).toInt() // Преобразование dp в px
+        val imageSizeInPx = Conversion.convertImageSize(imageSizeInDp, scale)
+
 
         packs.forEach { pack ->
             // Создаем ImageView для отображения обложки (Thumbnail)
@@ -115,7 +132,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 // URL для загрузки обложки
-                val imageUrl = "http://192.168.1.101:1323/api/download/packThumbnails/${pack.ID}"
+                val imageUrl = Constants.BASE_URL + "/api/download/packThumbnails/${pack.ID}"
                 Log.d(TAG, "displayPacks: Загружаем обложку с URL: $imageUrl")
 
                 // Используем Picasso для загрузки обложки

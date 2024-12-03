@@ -1,5 +1,7 @@
 package com.example.guessgame
 
+import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,6 +15,7 @@ import android.widget.TextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import kotlin.math.sqrt
 
 class PackDetailActivity : AppCompatActivity() {
@@ -29,9 +32,17 @@ class PackDetailActivity : AppCompatActivity() {
         val packName = intent.getStringExtra("packName") ?: "Pack"
         title = packName
 
+        val toHomeActivityButton: Button = findViewById(R.id.toHomeActivityButton)
+
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = ImageAdapter(images)
+
+        toHomeActivityButton.setOnClickListener {
+            // Переход на новую активность HomeActivity
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
 
         // Добавляем слушатель прокрутки для RecyclerView
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -78,7 +89,7 @@ class PackDetailActivity : AppCompatActivity() {
 
             fun bind(image: Image) {
                 textView.text = image.Name
-                val imageUrl = "http://192.168.1.101:1323/api/download/images/${image.ID}"
+                val imageUrl = Constants.BASE_URL + "/api/download/images/${image.ID}"
                 Picasso.get().load(imageUrl).into(imageView)
 
                 imageView.setOnTouchListener { v, event ->

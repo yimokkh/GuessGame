@@ -40,7 +40,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun sendSignupRequest(username: String, password: String) {
-        val url = "http://192.168.1.101:1323/api/register" // URL для регистрации
+        val url = Constants.BASE_URL + "/api/register" // URL для регистрации
         val json = """
     {
         "username": "$username",

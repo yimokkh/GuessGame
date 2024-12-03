@@ -1,6 +1,8 @@
 package com.example.guessgame
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -39,11 +41,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun sendLoginRequest(username: String, password: String) {
-        val url = "http://192.168.1.101:1323/api/login"
+        val url = Constants.BASE_URL + "/api/login"
         val json = """
     {
         "username": "$username",

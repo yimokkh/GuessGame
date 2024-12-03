@@ -7,23 +7,67 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <!-- ScrollView для прокрутки содержимого -->
     <ScrollView
-        android:layout_width="411dp"
-        android:layout_height="550dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footerLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Внутри ScrollView добавим GridLayout -->
         <GridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:columnCount="1"
             android:orientation="horizontal"
-            android:padding="18dp" />
+            android:layout_gravity="center">
+
+            <!-- Ваши элементы здесь, например TextView или ImageView -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hello, World!"
+                android:textSize="20sp"
+                android:gravity="center" />
+
+        </GridLayout>
+
     </ScrollView>
 
+    <!-- LinearLayout для кнопки и текста -->
+    <LinearLayout
+        android:id="@+id/footerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Текст рядом с кнопкой -->
+        <TextView
+            android:id="@+id/footerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Выйти из аккаунта"
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Кнопка -->
+        <Button
+            android:id="@+id/unSignUpButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Выйти" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
